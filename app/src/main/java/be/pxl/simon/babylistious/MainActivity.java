@@ -2,17 +2,31 @@ package be.pxl.simon.babylistious;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView mBabyTextView;
+    private RecyclerView mRecyclerView;
+    private BabyListItemAdapter mBabyListItemAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mBabyTextView = (TextView) findViewById(R.id.baby_list_data);
+
+        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerview_baby_list);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        mRecyclerView.setLayoutManager(layoutManager);
+
+        mRecyclerView.setHasFixedSize(true);
+
+        mBabyListItemAdapter = new BabyListItemAdapter();
+
+        mRecyclerView.setAdapter(mBabyListItemAdapter);
 
         String[] dummyData = {
                 "6 stuks bovenkleding",
@@ -31,8 +45,11 @@ public class MainActivity extends AppCompatActivity {
                 "Speelgoed en knuffels",
         };
 
-        for (String dummyItem: dummyData) {
-            mBabyTextView.append(dummyItem + "\n\n\n");
-        }
+        mBabyListItemAdapter.setBabyListData((dummyData));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return super.onCreateOptionsMenu(menu);
     }
 }

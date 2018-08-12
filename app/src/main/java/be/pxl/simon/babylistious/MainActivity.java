@@ -1,5 +1,7 @@
 package be.pxl.simon.babylistious;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,8 +11,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements BabyListItemAdapter.BabyListItemAdapterOnClickHandler {
 
     private RecyclerView mRecyclerView;
     private BabyListItemAdapter mBabyListItemAdapter;
@@ -27,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
         mRecyclerView.setHasFixedSize(true);
 
-        mBabyListItemAdapter = new BabyListItemAdapter();
+        mBabyListItemAdapter = new BabyListItemAdapter(this);
 
         mRecyclerView.setAdapter(mBabyListItemAdapter);
 
@@ -49,6 +52,14 @@ public class MainActivity extends AppCompatActivity {
         };
 
         mBabyListItemAdapter.setBabyListData((dummyData));
+    }
+
+    @Override
+    public void onClick(String babyListItemDescription) {
+        Context context = this;
+        Class destinationClass = DetailActivity.class;
+        Intent intentToStartDetailActivity = new Intent(context, destinationClass);
+        startActivity(intentToStartDetailActivity);
     }
 
     @Override

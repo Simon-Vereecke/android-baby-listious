@@ -12,14 +12,30 @@ public class BabyListItemAdapter extends RecyclerView.Adapter<BabyListItemAdapte
 
     private String[] mBabyListData;
 
-    public BabyListItemAdapter() {}
+    private final BabyListItemAdapterOnClickHandler mClickHandler;
 
-    public class BabyListItemViewHolder extends RecyclerView.ViewHolder {
+    public interface BabyListItemAdapterOnClickHandler {
+        void onClick(String babyListItemDescription);
+    }
+
+    public BabyListItemAdapter(BabyListItemAdapterOnClickHandler clickHandler) {
+        mClickHandler = clickHandler;
+    }
+
+    public class BabyListItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public final TextView mBabyListItemTextView;
 
         public BabyListItemViewHolder(View view) {
             super(view);
             mBabyListItemTextView = (TextView) view.findViewById(R.id.baby_item_data);
+            view.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            int adapterPosition = getAdapterPosition();
+            String babyListItemDescription = mBabyListData[adapterPosition];
+            mClickHandler.onClick(babyListItemDescription);
         }
     }
 

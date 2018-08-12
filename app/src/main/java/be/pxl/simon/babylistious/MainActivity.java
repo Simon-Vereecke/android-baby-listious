@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements BabyListItemAdapt
         Context context = this;
         Class destinationClass = DetailActivity.class;
         Intent intentToStartDetailActivity = new Intent(context, destinationClass);
+        intentToStartDetailActivity.putExtra(Intent.EXTRA_TEXT, babyListItemDescription);
         startActivity(intentToStartDetailActivity);
     }
 

@@ -23,7 +23,7 @@ public class BabyListUtils {
                 return R.drawable.ic_round_child_friendly;
 
             default:
-                Log.d(LOG_TAG, "");
+                Log.d(LOG_TAG, "Unknown category " + iconId);
                 return R.drawable.ic_round_child_care;
         }
     }

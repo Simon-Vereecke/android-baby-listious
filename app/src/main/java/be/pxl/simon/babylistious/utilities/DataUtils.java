@@ -3,6 +3,7 @@ package be.pxl.simon.babylistious.utilities;
 import android.content.ContentValues;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +11,8 @@ import java.util.List;
 import be.pxl.simon.babylistious.data.BabyListContract;
 
 public class DataUtils {
+
+    private static final String LOG_TAG = DataUtils.class.getSimpleName();
 
     public static void insertInitialData(SQLiteDatabase db) {
         if (db == null) {
@@ -77,6 +80,7 @@ public class DataUtils {
         }
         catch (SQLException e) {
             // ¯\_(ツ)_/¯
+            Log.d(LOG_TAG, "SQLException: " + e);
         }
         finally {
             db.endTransaction();

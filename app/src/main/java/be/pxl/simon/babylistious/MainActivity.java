@@ -54,13 +54,9 @@ public class MainActivity extends AppCompatActivity implements
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerview_baby_list);
         mFloatingActionButton = (FloatingActionButton) findViewById(R.id.floatingActionButton);
-
-        mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
+        mFloatingActionButton.setOnClickListener((View v) -> {
+            Intent intent = new Intent(this, AddItemActivity.class);
+            startActivity(intent);
         });
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);

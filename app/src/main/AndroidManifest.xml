@@ -23,11 +23,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <activity android:name=".SettingsActivity"></activity>
+        <activity android:name=".SettingsActivity" />
+
         <provider
+            android:name=".data.BabyListProvider"
             android:authorities="be.pxl.simon.babylistious"
-            android:name="be.pxl.simon.babylistious.data.BabyListProvider"
-            android:exported="false"/>
+            android:exported="false" />
+
+        <activity android:name=".AddItemActivity"></activity>
     </application>
 
 </manifest>

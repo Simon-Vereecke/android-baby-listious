@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import be.pxl.simon.babylistious.utilities.BabyListUtils;
+
 public class BabyListItemAdapter extends RecyclerView.Adapter<BabyListItemAdapter.BabyListItemViewHolder> {
 
     private final Context mContext;
@@ -70,7 +72,10 @@ public class BabyListItemAdapter extends RecyclerView.Adapter<BabyListItemAdapte
         /****************
          * List Icon *
          ****************/
-        babyListItemViewHolder.iconView.setImageResource(R.drawable.ic_round_child_care);
+        int iconId = mCursor.getInt(MainActivity.INDEX_BABYLIST_ICON_ID);
+        int iconImageId;
+        iconImageId = BabyListUtils.getSmallArtResourceIdForListItem(iconId);
+        babyListItemViewHolder.iconView.setImageResource(iconImageId);
 
         String babyListItemDescription = mCursor.getString(MainActivity.INDEX_BABYLIST_DESCRIPTION);
 

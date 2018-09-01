@@ -24,6 +24,10 @@
                 android:value=".MainActivity" />
         </activity>
         <activity android:name=".SettingsActivity"></activity>
+        <provider
+            android:authorities="be.pxl.simon.babylistious"
+            android:name="be.pxl.simon.babylistious.data.BabyListProvider"
+            android:exported="false"/>
     </application>
 
 </manifest>

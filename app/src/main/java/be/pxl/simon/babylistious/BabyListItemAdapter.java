@@ -1,16 +1,19 @@
 package be.pxl.simon.babylistious;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class BabyListItemAdapter extends RecyclerView.Adapter<BabyListItemAdapter.BabyListItemViewHolder> {
 
-    private String[] mBabyListData;
+    private final Context mContext;
 
     private final BabyListItemAdapterOnClickHandler mClickHandler;
 
@@ -18,23 +21,32 @@ public class BabyListItemAdapter extends RecyclerView.Adapter<BabyListItemAdapte
         void onClick(String babyListItemDescription);
     }
 
-    public BabyListItemAdapter(BabyListItemAdapterOnClickHandler clickHandler) {
+    private Cursor mCursor;
+
+    public BabyListItemAdapter(@NonNull Context context, BabyListItemAdapterOnClickHandler clickHandler) {
+        mContext = context;
         mClickHandler = clickHandler;
     }
 
     public class BabyListItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        public final ImageView iconView;
         public final TextView mBabyListItemTextView;
+        public final AppCompatCheckBox mBabyListItemCheckBox;
 
         public BabyListItemViewHolder(View view) {
             super(view);
+
+            iconView = (ImageView) view.findViewById(R.id.baby_list_item_icon);
             mBabyListItemTextView = (TextView) view.findViewById(R.id.baby_item_data);
+            mBabyListItemCheckBox = (AppCompatCheckBox) view.findViewById(R.id.baby_item_checkbox);
+
             view.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
-            int adapterPosition = getAdapterPosition();
-            String babyListItemDescription = mBabyListData[adapterPosition];
+            String babyListItemDescription = mBabyListItemTextView.getText().toString();
             mClickHandler.onClick(babyListItemDescription);
         }
     }
@@ -53,18 +65,27 @@ public class BabyListItemAdapter extends RecyclerView.Adapter<BabyListItemAdapte
 
     @Override
     public void onBindViewHolder(@NonNull BabyListItemViewHolder babyListItemViewHolder, int position) {
-        String babyListItemDescription = mBabyListData[position];
+        mCursor.moveToPosition(position);
+
+        /****************
+         * List Icon *
+         ****************/
+        babyListItemViewHolder.iconView.setImageResource(R.drawable.ic_round_child_care);
+
+        String babyListItemDescription = mCursor.getString(MainActivity.INDEX_BABYLIST_DESCRIPTION);
+
         babyListItemViewHolder.mBabyListItemTextView.setText(babyListItemDescription);
     }
 
     @Override
     public int getItemCount() {
-        if (mBabyListData == null) return 0;
-        return mBabyListData.length;
+        if (mCursor == null) return 0;
+        return mCursor.getCount();
     }
 
-    public void setBabyListData(String[] babyListData) {
-        mBabyListData = babyListData;
+    void swapCursor(Cursor newCursor) {
+        mCursor = newCursor;
         notifyDataSetChanged();
     }
+
 }

@@ -2,6 +2,7 @@ package be.pxl.simon.babylistious;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -12,8 +13,10 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,19 +27,22 @@ import be.pxl.simon.babylistious.data.BabyListContract;
 
 public class MainActivity extends AppCompatActivity implements
         BabyListItemAdapter.BabyListItemAdapterOnClickHandler,
-        LoaderManager.LoaderCallbacks<Cursor> {
+        LoaderManager.LoaderCallbacks<Cursor>,
+        SharedPreferences.OnSharedPreferenceChangeListener {
 
     private final String TAG = MainActivity.class.getSimpleName();
 
     public static final String[] MAIN_BABYLIST_PROJECTION = {
             BabyListContract.BabyListEntry.COLUMN_DESCRIPTION,
             BabyListContract.BabyListEntry.COLUMN_AMOUNT,
-            BabyListContract.BabyListEntry.COLUMN_BABYLIST_ID
+            BabyListContract.BabyListEntry.COLUMN_BABYLIST_ID,
+            BabyListContract.BabyListEntry._ID
     };
 
     public static final int INDEX_BABYLIST_DESCRIPTION = 0;
     public static final int INDEX_BABYLIST_AMOUNT = 1;
     public static final int INDEX_BABYLIST_ICON_ID = 2;
+    public static final int INDEX_BABYLIST_ID = 3;
 
     private RecyclerView mRecyclerView;
     private BabyListItemAdapter mBabyListItemAdapter;
@@ -44,6 +50,8 @@ public class MainActivity extends AppCompatActivity implements
 
     private int mPosition = RecyclerView.NO_POSITION;
     private static  final int BABYLIST_LOADER_ID = 69;
+
+    private static boolean PREFERENCES_HAVE_BEEN_UPDATED = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,12 +74,38 @@ public class MainActivity extends AppCompatActivity implements
         mRecyclerView.setHasFixedSize(true);
         mBabyListItemAdapter = new BabyListItemAdapter(this,this);
         mRecyclerView.setAdapter(mBabyListItemAdapter);
+        // swipe to delete an item
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
 
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                // TODO: debug delete
+                int id = (int) viewHolder.itemView.getTag();
+
+                String stringId = Integer.toString(id);
+                Uri uri = BabyListContract.BabyListEntry.CONTENT_URI;
+                uri = uri.buildUpon().appendPath(stringId).build();
+
+                getContentResolver().delete(uri, null, null);
+
+                getSupportLoaderManager().restartLoader(BABYLIST_LOADER_ID, null, MainActivity.this);
+            }
+        }).attachToRecyclerView(mRecyclerView);
+
+        /* Loader for SQLiteDatabase */
         int loaderId = BABYLIST_LOADER_ID;
         LoaderManager.LoaderCallbacks<Cursor> callback = MainActivity.this;
         Bundle bundleForLoader = null;
         getSupportLoaderManager().initLoader(loaderId, bundleForLoader, callback);
 
+        /* Register shared preferences */
+        Log.d(TAG, "onCreate: registering preference changed listener");
+        PreferenceManager.getDefaultSharedPreferences(this)
+                .registerOnSharedPreferenceChangeListener(this);
     }
 
     @Override
@@ -81,6 +115,24 @@ public class MainActivity extends AppCompatActivity implements
         Intent intentToStartDetailActivity = new Intent(context, destinationClass);
         intentToStartDetailActivity.putExtra(Intent.EXTRA_TEXT, babyListItemDescription);
         startActivity(intentToStartDetailActivity);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if (PREFERENCES_HAVE_BEEN_UPDATED) {
+            Log.d(TAG, "onStart: preferences were updated");
+            getSupportLoaderManager().restartLoader(BABYLIST_LOADER_ID, null, this);
+            PREFERENCES_HAVE_BEEN_UPDATED = false;
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
     }
 
     @Override
@@ -134,4 +186,8 @@ public class MainActivity extends AppCompatActivity implements
         mBabyListItemAdapter.swapCursor(null);
     }
 
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        PREFERENCES_HAVE_BEEN_UPDATED = true;
+    }
 }

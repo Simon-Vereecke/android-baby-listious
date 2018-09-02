@@ -1,9 +1,11 @@
 package be.pxl.simon.babylistious.data;
 
 import android.content.ContentProvider;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -72,7 +74,28 @@ public class BabyListProvider extends ContentProvider {
     @Nullable
     @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
-        return null;
+        final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+
+        int match = sUriMatcher.match(uri);
+        Uri returnUri;
+
+        switch (match) {
+            case CODE_BABYLIST:
+                long id = db.insert(BabyListContract.BabyListEntry.TABLE_NAME, null, values);
+                if (id > 0) {
+                    returnUri = ContentUris.withAppendedId(BabyListContract.BabyListEntry.CONTENT_URI, id);
+                } else {
+                    throw new SQLException("Failed to insert row into " + uri);
+                }
+                break;
+
+            default:
+                throw new UnsupportedOperationException("Unknown uri: " + uri);
+        }
+
+        getContext().getContentResolver().notifyChange(uri, null);
+
+        return returnUri;
     }
 
     @Override
@@ -119,6 +142,13 @@ public class BabyListProvider extends ContentProvider {
                         BabyListContract.BabyListEntry.TABLE_NAME,
                         selection,
                         selectionArgs);
+                break;
+            case CODE_BABYLIST_WITH_ID:
+                String id = uri.getPathSegments().get(1);
+                numRowsDeleted = mOpenHelper.getWritableDatabase().delete(
+                        BabyListContract.BabyListEntry.TABLE_NAME,
+                        "_id=?",
+                        new String[]{id});
                 break;
 
             default:

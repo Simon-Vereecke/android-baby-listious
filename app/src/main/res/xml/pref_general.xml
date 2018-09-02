@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <CheckBoxPreference
+        android:key="show_checked"
+        android:title="Aangevinkte items weergeven"
+        android:defaultValue="true"/>
+
+    <!--<ListPreference-->
+        <!--android:defaultValue="niet gekend"-->
+        <!--android:entries="@array/pref_gender_options"-->
+        <!--android:entryValues="@array/pref_gender_values"-->
+        <!--android:key="gender"-->
+        <!--android:title="Geslacht" />-->
+
+</PreferenceScreen>

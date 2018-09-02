@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import be.pxl.simon.babylistious.data.BabyListContract;
 import be.pxl.simon.babylistious.utilities.BabyListUtils;
 
 public class BabyListItemAdapter extends RecyclerView.Adapter<BabyListItemAdapter.BabyListItemViewHolder> {
@@ -77,9 +78,15 @@ public class BabyListItemAdapter extends RecyclerView.Adapter<BabyListItemAdapte
         iconImageId = BabyListUtils.getSmallArtResourceIdForListItem(iconId);
         babyListItemViewHolder.iconView.setImageResource(iconImageId);
 
+        /****************
+         * Description *
+         ****************/
         String babyListItemDescription = mCursor.getString(MainActivity.INDEX_BABYLIST_DESCRIPTION);
-
         babyListItemViewHolder.mBabyListItemTextView.setText(babyListItemDescription);
+
+        // Set tag for delete on swipe
+        int id = mCursor.getInt(MainActivity.INDEX_BABYLIST_ID);
+        babyListItemViewHolder.itemView.setTag(id);
     }
 
     @Override

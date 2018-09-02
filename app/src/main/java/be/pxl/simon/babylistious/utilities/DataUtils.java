@@ -80,7 +80,7 @@ public class DataUtils {
         }
         catch (SQLException e) {
             // ¯\_(ツ)_/¯
-            Log.d(LOG_TAG, "SQLException: " + e);
+            Log.e(LOG_TAG, "SQLException: " + e);
         }
         finally {
             db.endTransaction();

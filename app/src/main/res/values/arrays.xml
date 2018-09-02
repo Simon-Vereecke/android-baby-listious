@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="pref_gender_option_labels">
+        <item>@string/pref_gender_label_boy</item>
+        <item>@string/pref_gender_label_girl</item>
+        <item>@string/pref_gender_label_unknown</item>
+    </array>
+
+    <array name="pref_gender_option_values">
+        <item>@string/pref_gender_boy_value</item>
+        <item>@string/pref_gender_girl_value</item>
+        <item>@string/pref_gender_unknown_value</item>
+    </array>
+</resources>

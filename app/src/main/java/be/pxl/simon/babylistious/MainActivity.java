@@ -24,6 +24,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import be.pxl.simon.babylistious.data.BabyListContract;
+import be.pxl.simon.babylistious.data.BabyListDbHelper;
 
 public class MainActivity extends AppCompatActivity implements
         BabyListItemAdapter.BabyListItemAdapterOnClickHandler,
@@ -176,6 +177,14 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onLoadFinished(@NonNull android.support.v4.content.Loader<Cursor> loader, Cursor data) {
         Log.d("Main", "LOAD FINISHED");
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean showCheckedItems = preferences.getBoolean(getString(R.string.pref_show_checked_items_key), getResources().getBoolean(R.bool.pref_show_checked_items));
+
+        if (!showCheckedItems) {
+            // TODO: filter data so that it contains only unchecked items...
+        }
+
         mBabyListItemAdapter.swapCursor(data);
         if (mPosition == RecyclerView.NO_POSITION) mPosition = 0;
         mRecyclerView.smoothScrollToPosition(mPosition);

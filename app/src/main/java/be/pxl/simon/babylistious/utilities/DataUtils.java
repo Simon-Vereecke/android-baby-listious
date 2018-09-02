@@ -22,16 +22,8 @@ public class DataUtils {
         List<ContentValues> list = new ArrayList<ContentValues>();
 
         /* Babykleding */
-        ContentValues cv = new ContentValues();
-        cv.put(BabyListContract.BabyListEntry.COLUMN_DESCRIPTION, "6 rompertjes");
-        cv.put(BabyListContract.BabyListEntry.COLUMN_AMOUNT, 6);
-        cv.put(BabyListContract.BabyListEntry.COLUMN_CHECKED, true);
-        cv.put(BabyListContract.BabyListEntry.COLUMN_BABYLIST_ID, 1);
-        cv.put(BabyListContract.BabyListEntry.COLUMN_MANUFACTURER_LINK, "http://www.google.com");
-        cv.put(BabyListContract.BabyListEntry.COLUMN_CATEGORY, 1);
-        list.add(cv);
 
-        cv = new ContentValues();
+        ContentValues cv = new ContentValues();
         cv.put(BabyListContract.BabyListEntry.COLUMN_DESCRIPTION, "6 stukjes bovenkleding");
         cv.put(BabyListContract.BabyListEntry.COLUMN_AMOUNT, 6);
         cv.put(BabyListContract.BabyListEntry.COLUMN_CHECKED, false);
@@ -66,6 +58,26 @@ public class DataUtils {
         cv.put(BabyListContract.BabyListEntry.COLUMN_BABYLIST_ID, 2);
         cv.put(BabyListContract.BabyListEntry.COLUMN_MANUFACTURER_LINK, "http://www.google.com");
         cv.put(BabyListContract.BabyListEntry.COLUMN_CATEGORY, 2);
+        list.add(cv);
+
+        /* In bad */
+        cv = new ContentValues();
+        cv.put(BabyListContract.BabyListEntry.COLUMN_DESCRIPTION, "Badthermometer");
+        cv.put(BabyListContract.BabyListEntry.COLUMN_AMOUNT, 1);
+        cv.put(BabyListContract.BabyListEntry.COLUMN_CHECKED, false);
+        cv.put(BabyListContract.BabyListEntry.COLUMN_BABYLIST_ID, 4);
+        cv.put(BabyListContract.BabyListEntry.COLUMN_MANUFACTURER_LINK, "http://www.google.com");
+        cv.put(BabyListContract.BabyListEntry.COLUMN_CATEGORY, 4);
+        list.add(cv);
+
+        /* Voor borstvoeding */
+        cv = new ContentValues();
+        cv.put(BabyListContract.BabyListEntry.COLUMN_DESCRIPTION, "Voedingskussen");
+        cv.put(BabyListContract.BabyListEntry.COLUMN_AMOUNT, 1);
+        cv.put(BabyListContract.BabyListEntry.COLUMN_CHECKED, false);
+        cv.put(BabyListContract.BabyListEntry.COLUMN_BABYLIST_ID, 5);
+        cv.put(BabyListContract.BabyListEntry.COLUMN_MANUFACTURER_LINK, "http://www.google.com");
+        cv.put(BabyListContract.BabyListEntry.COLUMN_CATEGORY, 5);
         list.add(cv);
 
         try {

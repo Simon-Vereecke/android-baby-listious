@@ -2,15 +2,17 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <CheckBoxPreference
-        android:key="show_checked"
-        android:title="Aangevinkte items weergeven"
-        android:defaultValue="true"/>
+        android:defaultValue="@bool/pref_show_checked_items"
+        android:key="@string/pref_show_checked_items_key"
+        android:summaryOff="Hidden"
+        android:summaryOn="Showing"
+        android:title="Aangevinkte items weergeven" />
 
-    <!--<ListPreference-->
-        <!--android:defaultValue="niet gekend"-->
-        <!--android:entries="@array/pref_gender_options"-->
-        <!--android:entryValues="@array/pref_gender_values"-->
-        <!--android:key="gender"-->
-        <!--android:title="Geslacht" />-->
+    <ListPreference
+        android:defaultValue="@string/pref_gender_unknown_value"
+        android:entries="@array/pref_gender_option_labels"
+        android:entryValues="@array/pref_gender_option_values"
+        android:key="@string/pref_gender_key"
+        android:title="@string/pref_gender_label" />
 
 </PreferenceScreen>

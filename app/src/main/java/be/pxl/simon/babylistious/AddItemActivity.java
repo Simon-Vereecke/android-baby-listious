@@ -32,8 +32,8 @@ public class AddItemActivity extends AppCompatActivity {
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(BabyListContract.BabyListEntry.COLUMN_DESCRIPTION, input);
-        contentValues.put(BabyListContract.BabyListEntry.COLUMN_CATEGORY, 4);
-        contentValues.put(BabyListContract.BabyListEntry.COLUMN_BABYLIST_ID, 4);
+        contentValues.put(BabyListContract.BabyListEntry.COLUMN_CATEGORY, 6);
+        contentValues.put(BabyListContract.BabyListEntry.COLUMN_BABYLIST_ID, 6);
         contentValues.put(BabyListContract.BabyListEntry.COLUMN_CHECKED, false);
         contentValues.put(BabyListContract.BabyListEntry.COLUMN_AMOUNT, 1);
         contentValues.put(BabyListContract.BabyListEntry.COLUMN_MANUFACTURER_LINK, "http://www.google.com");

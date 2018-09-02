@@ -3,5 +3,15 @@
 
     <string name="action_settings">Settings</string>
 
+    <string name="pref_show_checked_items_key" translatable="false">show_checked_items</string>
 
+    <string name="pref_gender_label">Geslacht</string>
+    <string name="pref_gender_label_boy">Jongen</string>
+    <string name="pref_gender_label_girl">Meisje</string>
+    <string name="pref_gender_label_unknown">Niet gekend</string>
+
+    <string name="pref_gender_key" translatable="false">gender</string>
+    <string name="pref_gender_boy_value" translatable="false">boy</string>
+    <string name="pref_gender_girl_value" translatable="false">girl</string>
+    <string name="pref_gender_unknown_value" translatable="false">unknown</string>
 </resources>
